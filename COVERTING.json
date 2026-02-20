@@ -16,6 +16,10 @@
     {
       "name": "cache",
       "type": "redis"
+    },
+    {
+      "name": "Data Distributor",
+      "type": "kafka"
     }
   ]
 }
