@@ -1,4 +1,28 @@
 {
+  "name": "sample-node-app",
+  "version": "1.0.0",
+  "description": "A small Node app to demonstrate CI/CD",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "build": "echo \"No build step configured\"",
+    "lint": "eslint .",
+    "test": "jest --coverage",
+    "coverage:ci": "node ./node_modules/.bin/jest --coverage --coverageReporters=text-lcov"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "jest": "^29.0.0",
+    "supertest": "^6.3.0",
+    "eslint": "^8.0.0",
+    "coveralls": "^3.1.1"
+  }
+}
+{
   "name": "node",
   "version": "1.0.0",
   "description": "",
