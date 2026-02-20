@@ -1,0 +1,19 @@
+app_name: WebServer
+version: 1.0
+enabled: true
+
+server:
+  host: 127.0.0.1
+  port: 8080
+  timeout: 30s
+
+users:
+  - admin
+  - developer
+  - guest7
+
+databases:
+  - name: primary
+    type: postgresql
+  - name: cache
+    type: redis
