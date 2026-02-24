@@ -48,12 +48,11 @@ jobs:
         run: npm audit --audit-level=moderate || true
         working-directory: node
 
-      - name: Upload coverage to actions artifact
-        if: always()
+      - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
         with:
-          name: coverage-report-node-${{ matrix.node-version }}
-          path: node/coverage/**
+           name: coverage-report
+           path: node/coverage/
           
       - name: Upload coverage to Coveralls
         run: npx coveralls < coverage/lcov.info
