@@ -54,10 +54,10 @@ jobs:
            name: coverage-report
            path: node/coverage/
           
-      - name: Upload coverage to Coveralls
-        run: npx coveralls < coverage/lcov.info
-        env:
-          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}   
+       - name: Upload coverage to Coveralls
+         run: npx coveralls < node/coverage/lcov.info
+         env:
+            COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }} 
 
   workflow-summary:
     name: Workflow summary
