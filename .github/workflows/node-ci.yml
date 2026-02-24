@@ -54,6 +54,11 @@ jobs:
         with:
           name: coverage-report-node-${{ matrix.node-version }}
           path: node/coverage/**
+          
+      - name: Upload coverage to Coveralls
+        run: npx coveralls < coverage/lcov.info
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}   
 
   workflow-summary:
     name: Workflow summary
