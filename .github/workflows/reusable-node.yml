@@ -2,6 +2,10 @@ name: Reusable Node Pipeline
 
 on:
   workflow_call:
+    inputs:
+      node_version:
+        required: true
+        type: string
 
 jobs:
   node-job:
@@ -14,7 +18,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: ${{ inputs.node_version }}
 
       - name: Install dependencies
         run: npm install
