@@ -6,5 +6,5 @@ on:
       - main
 
 jobs:
-  call-reusable-workflow:
+  call-template:
     uses: ./.github/workflows/reusable-node.yml
