@@ -1,1 +1,47 @@
 
+name: Terraform CI/CD
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform Init
+        run: terraform init terraform-azure-project
+
+      - name: Terraform Format Check
+        run: terraform fmt -check terraform-azure-project
+
+      - name: Terraform Validate
+        run: terraform validate terraform-azure-project
+
+      - name: Terraform Plan
+        if: github.event_name == 'pull_request'
+        run: terraform -chdir=terraform-azure-project plan
+        env:
+          TF_VAR_subscription_id: ${{ secrets.TF_VAR_subscription_id }}
+
+      - name: Terraform Apply
+        if: github.event_name == 'push'
+        run: terraform -chdir=terraform-azure-project apply -auto-approve
+        env:
+          TF_VAR_subscription_id: ${{ secrets.TF_VAR_subscription_id }}
