@@ -41,10 +41,10 @@ jobs:
         if: github.event_name == 'pull_request'
         run: terraform plan
         env:
-          TF_VAR_subscription_id: ${{ secrets.TF_VAR_subscription_id }}
+          TF_VAR_subscription_id: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
 
       - name: Terraform Apply
         if: github.event_name == 'push'
         run: terraform apply -auto-approve
         env:
-          TF_VAR_subscription_id: ${{ secrets.TF_VAR_subscription_id }}
+          TF_VAR_subscription_id: ${{ secrets.TF_VAR_SUBSCRIPTION_ID }}
