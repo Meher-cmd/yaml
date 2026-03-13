@@ -1,1 +1,10 @@
+name: Use Reusable Pipeline
 
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  call-reusable-workflow:
+    uses: ./.github/workflows/reusable-node.yml
