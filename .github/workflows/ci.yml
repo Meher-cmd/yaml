@@ -8,5 +8,3 @@ on:
 jobs:
   call-reusable-workflow:
     uses: ./.github/workflows/reusable-node.yml
-    with:
-      node_version: "18"
