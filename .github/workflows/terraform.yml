@@ -12,6 +12,9 @@ on:
 jobs:
   terraform:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: terraform-azure-project
 
     steps:
       - name: Checkout code
@@ -26,22 +29,22 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        run: terraform init terraform-azure-project
+        run: terraform init
 
       - name: Terraform Format Check
-        run: terraform fmt -check terraform-azure-project
+        run: terraform fmt -check
 
       - name: Terraform Validate
-        run: terraform validate terraform-azure-project
+        run: terraform validate
 
       - name: Terraform Plan
         if: github.event_name == 'pull_request'
-        run: terraform -chdir=terraform-azure-project plan
+        run: terraform plan
         env:
           TF_VAR_subscription_id: ${{ secrets.TF_VAR_subscription_id }}
 
       - name: Terraform Apply
         if: github.event_name == 'push'
-        run: terraform -chdir=terraform-azure-project apply -auto-approve
+        run: terraform apply -auto-approve
         env:
           TF_VAR_subscription_id: ${{ secrets.TF_VAR_subscription_id }}
