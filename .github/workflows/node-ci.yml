@@ -1,32 +1,13 @@
-name: Reusable Node Pipeline
+name: Node CI Using Reusable Template
 
 on:
-  workflow_call:
-    inputs:
-      node-version:
-        required: true
-        type: string
-      app-path:
-        required: true
-        type: string
+  push:
+    branches:
+      - main
 
 jobs:
-  node-job:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: ${{ inputs.node-version }}
-
-      - name: Install dependencies
-        run: npm install
-        working-directory: ${{ inputs.app-path }}
-
-      - name: Run tests
-        run: npm test
-        working-directory: ${{ inputs.app-path }}
+  call-reusable:
+    uses: ./.github/workflows/reusable-node.yml
+    with:
+      node-version: "20"
+      app-path: "./node"
