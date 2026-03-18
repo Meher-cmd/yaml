@@ -44,5 +44,10 @@ jobs:
     environment: prod
 
     steps:
+      - name: Use secret safely
+        run: echo "Using secret securely"
+        env:
+          PASSWORD: ${{ secrets.MY_PASSWORD }}
+
       - name: Deploy to Prod
         run: echo "Deploying to PROD"
