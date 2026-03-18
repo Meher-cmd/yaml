@@ -3,27 +3,48 @@ name: Dev to Prod Pipeline
 on:
   push:
     branches:
-      - develop
+      - dev
       - main
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
-      - name: Show files
-        run: ls
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+        working-directory: ./node
+
+      - name: Run tests
+        run: npm test
+        working-directory: ./node
 
   deploy-dev:
-    if: github.ref == 'refs/heads/develop'
-    needs: build
+    if: github.ref == 'refs/heads/dev'
+    needs: test
     runs-on: ubuntu-latest
+    environment: dev
+
     steps:
-      - run: echo "Deploying to DEV"
+      - name: Deploy to Dev
+        run: echo "Deploying to DEV"
 
   deploy-prod:
     if: github.ref == 'refs/heads/main'
-    needs: build
+    needs: test
     runs-on: ubuntu-latest
+    environment: prod
+
     steps:
-      - run: echo "Deploying to PROD"
+      - name: Deploy to Prod
+        run: echo "Deploying to PROD"
+
+      
