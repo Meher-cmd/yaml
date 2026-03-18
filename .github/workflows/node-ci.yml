@@ -1,71 +1,18 @@
-name: Node CI Pipeline
+name: Node CI Using Reusable Template
 
 on:
   push:
     branches:
       - main
-      - develop
-  pull_request:
-  workflow_dispatch:
 
 jobs:
-  ci:
-    name: CI matrix
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        node-version: [16, 18, 20]
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          cache: 'npm'
-          cache-dependency-path: node/package-lock.json
-
-      - name: Install Dependencies
-        run: npm install
-        working-directory: node
-
-      - name: Lint
-        run: npm run lint
-        working-directory: node
-
-      - name: Run Tests (with coverage)
-        run: npm test --silent
-        working-directory: node
-
-      - name: Build (placeholder)
-        run: npm run build
-        working-directory: node
-
-      - name: Security Audit
-        run: npm audit --audit-level=moderate || true
-        working-directory: node
-
-      - name: Upload coverage artifact
-        uses: actions/upload-artifact@v4
-        with:
-           name: coverage-report
-           path: node/coverage/
-          
-       - name: Upload coverage to Coveralls
-         run: npx coveralls < node/coverage/lcov.info
-         env:
-            COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }} 
-
-  workflow-summary:
-    name: Workflow summary
-    runs-on: ubuntu-latest
-    needs: ci
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Show summary
-        run: |
-          echo "CI completed. Check individual matrix job logs for details."
+  call-reusable:
+    uses: ./.github/workflows/reusable-node.yml
+    with:
+      node-version: "20"
+      app-path: "./node"
+  
+         
+       
+      
+            
